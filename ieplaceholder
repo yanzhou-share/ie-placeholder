@@ -1,0 +1,45 @@
+//另外一种解决IE下面placeholder的问题
+$(document).ready(function(){
+    var isIE=document.all ? true : false;
+    
+    if(isIE)
+    {
+        var placeholder = $(":input[placeholder]");
+        
+        placeholder.each(function(){
+            if($(this).val() == "" && $(this).attr("type") != "password")
+            {
+                var _val = $(this).attr("placeholder");
+                
+                $(this).val(_val);
+            }
+        });
+        
+        placeholder.focus(function(){
+            var _val = $(this).val();
+            var _placeholder = $(this).attr('placeholder');
+            
+            if(_val == _placeholder)  $(this).val("");
+        });
+        
+        placeholder.blur(function(){
+            var _val = $(this).val();
+            var _placeholder = $(this).attr('placeholder');
+            
+            if(_val == "" && $(this).attr("type") != "password")
+            {
+                $(this).val(_placeholder);
+            }
+        });
+        
+        $("form").submit(function(){
+            var _input = $(":input");
+            
+            _input.each(function(){
+                var _val = $(this).val(), _placeholder = $(this).attr("placeholder");
+                
+                if(_val == _placeholder)  $(this).val("");
+            });
+        });
+    }
+});
